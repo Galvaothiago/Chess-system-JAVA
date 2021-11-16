@@ -88,10 +88,12 @@ public class ChessMatch {
 	}
 	
 	private Piece makeMove(Position source, Position target) {
-		Piece p = board.removePiece(source);
+		ChessPiece piece = (ChessPiece)board.removePiece(source);
+		piece.increaseMoveCount();
+		
 		Piece capturedPiece = board.removePiece(target);
 		
-		board.placePiece(p, target);
+		board.placePiece(piece, target);
 		
 		if(capturedPiece != null) {
 			piecesOnTheBoard.remove(capturedPiece);
@@ -102,7 +104,9 @@ public class ChessMatch {
 	}
 	
 	private void undoMove(Position source, Position target, Piece capturedPiece) {
-		Piece piece = board.removePiece(target);
+		ChessPiece piece = (ChessPiece)board.removePiece(target);
+		piece.increaseMoveCount();
+		
 		board.placePiece(piece, source);
 		
 		if(capturedPiece != null) {
